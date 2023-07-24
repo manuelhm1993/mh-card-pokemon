@@ -1,3 +1,6 @@
 @import url('normalize.css');
 
 @import url('fuentes.css');
+
+/* Vincular los estilos compilados por sass */
+@import url('estilos.css');
