@@ -5,21 +5,17 @@
     --dark-grayish-blue: hsl(227, 10%, 46%);
     --dark-gray: hsl(0, 0%, 59%);
 } */
-@import url("../css/normalize.css");
-@import url("../css/fuentes.css");
+
+@import url('../css/normalize.css');
+@import url('../css/fuentes.css');
+
 /* Hace que se respeten las dimensiones de los contenedores sin sumar margenes */
 html {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    // Llama una variable css
+    // background-color: var(--dark-cyan);
 }
 
 *, *:before, *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
-
-/* Inicio de los estilos de la pagina */
-body {
-  font-family: "KumbhSans", sans-serif;
-  background-color: hsl(185, 75%, 39%);
-}
-
-/*# sourceMappingURL=app.css.map */

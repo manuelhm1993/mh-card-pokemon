@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'KumbhSans';
     src: url('../fonts/static/KumbhSans-Regular.ttf');
-    font-weight: 400;
     font-style: normal;
+    font-weight: 400;
 }
 
 @font-face {
     font-family: 'KumbhSans';
     src: url('../fonts/static/KumbhSans-Bold.ttf');
-    font-weight: 700;
     font-style: normal;
+    font-weight: 700;
 }
