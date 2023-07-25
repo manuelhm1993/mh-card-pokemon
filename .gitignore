@@ -1,2 +1,8 @@
 assets/docs
 assets/sass
+
+#Para ignorar archivos que ya son rastreados por git se usa el siguiente comando:
+#git update-index --assume-unchanged assets/sass/app.scss
+#
+#Para revertir el efecto se usa el siguiente comando:
+#git update-index --no-assume-unchanged assets/sass/app.scss
