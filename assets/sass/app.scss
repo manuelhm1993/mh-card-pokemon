@@ -1,4 +1,6 @@
-@use '_formateo';
+@use '_formateo';//Los @use tienen prioridad sobre los @import
+
+@import url('../css/fuentes.css');
 
 // Declaracion de variables sass: se usa la nomenclatura $nombre: regla; similar a php
 $dark-cyan: hsl(185, 75%, 39%);
