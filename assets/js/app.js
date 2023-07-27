@@ -20,7 +20,7 @@ const pintarPokemon = (pokemon) => {
 
     imagen.setAttribute('src', pokemon.imagen);
     tituloCard.textContent  = pokemon.nombre;
-    hp.textContent = pokemon.hp;
+    hp.textContent = `${pokemon.hp} hp`;
     
     tituloCard.appendChild(hp);
     fragment.appendChild(clonTemplateCard);
@@ -37,8 +37,7 @@ const fetchData = (url, numeroPokemon) => {
     .then(data => {
         //------------------------- Crear un objeto pokemon con los valores de data
         const pokemon = {
-            //------------------------- Hace el efecto capitalize, pone la primera letra en mayúscula
-            nombre: data.name.charAt(0).toUpperCase() + data.name.slice(1),
+            nombre: data.name,
             imagen: data.sprites.other.dream_world.front_default,
             hp: data.stats[0].base_stat//Daño que puede recibir el pokemon
         };
@@ -49,6 +48,7 @@ const fetchData = (url, numeroPokemon) => {
     .catch(err => console.log(`Error al cargar el pokemon: ${ err.message }`));
 };
 
+//------------------------- De esta manera se solicita un recurso de tipo imagen por fetch
 const fetchBlob = (url, template) => {
     //------------------------- Hace la petición a la API
     fetch(url)
