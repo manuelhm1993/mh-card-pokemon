@@ -9,33 +9,42 @@ const devolverNumeroPokemon = (min, max) => {
     return (numeroPokemon === 0) ? 1 : numeroPokemon;
 };
 
-const pintarPokemon = (data) => {
-    const clonTemplateCard = templateCard.firstElementChild.cloneNode(true);
+const pintarPokemon = (pokemon) => {
+    //------------------------- Al no llamar a fetchBlob no es necesario el: .firstElementChild
+    const clonTemplateCard = templateCard.cloneNode(true);
 
     //------------------------- Hace el efecto capitalize, pone la primera letra en mayúscula
-    const nombrePokemon = data.name.charAt(0).toUpperCase() + data.name.slice(1);
-
-    //------------------------- Hace el efecto capitalize, pone la primera letra en mayúscula
+    const imagen = clonTemplateCard.querySelector('.card .card-body .card-body-img');
     const tituloCard = clonTemplateCard.querySelector('.card .card-body .card-body-title');
-    const experiencia = tituloCard.querySelector('span');
+    const hp = tituloCard.querySelector('span');
 
-    tituloCard.textContent  = nombrePokemon;
-    experiencia.textContent = data.base_experience;
-
-    fetchBlob(data.sprites.other.dream_world.front_default, clonTemplateCard);
+    imagen.setAttribute('src', pokemon.imagen);
+    tituloCard.textContent  = pokemon.nombre;
+    hp.textContent = pokemon.hp;
     
-    tituloCard.appendChild(experiencia);
+    tituloCard.appendChild(hp);
     fragment.appendChild(clonTemplateCard);
     mainContainer.appendChild(fragment);
 };
 
+//------------------------- Peticiones fetch
 const fetchData = (url, numeroPokemon) => {
     //------------------------- Hace la petición a la API
     fetch(url + numeroPokemon)
     //------------------------- Recibe la respuesta y la transforma en JSON
     .then(res => res.json())
     //------------------------- Toma la respuesta en JSON y le da el tratamiento pertinente
-    .then(data => pintarPokemon(data))
+    .then(data => {
+        //------------------------- Crear un objeto pokemon con los valores de data
+        const pokemon = {
+            //------------------------- Hace el efecto capitalize, pone la primera letra en mayúscula
+            nombre: data.name.charAt(0).toUpperCase() + data.name.slice(1),
+            imagen: data.sprites.other.dream_world.front_default,
+            hp: data.stats[0].base_stat//Daño que puede recibir el pokemon
+        };
+
+        pintarPokemon(pokemon);
+    })
     //------------------------- Control de errores
     .catch(err => console.log(`Error al cargar el pokemon: ${ err.message }`));
 };

@@ -365,10 +365,10 @@ body {
 .card-body-img {
   border: 5px solid white;
   border-radius: 50%;
-  margin-top: -53px;
+  margin-top: -70px;
   background-color: white;
-  width: 96px;
-  height: 96px;
+  width: 130px;
+  height: 130px;
 }
 .card-body-title {
   margin-top: 2rem;
