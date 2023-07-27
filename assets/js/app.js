@@ -25,24 +25,29 @@ const devolverElementosHTMLTemp = (template) => {
 //------------------------- Asigna una habilidad a cada elemento del footer
 const recorrerHabilidades = (pokemon, descripcionHabilidades) => {
     descripcionHabilidades.forEach(div => {
-        div.querySelector('h3').textContent = 'Habilidad';
-        
-        const habilidad = div.querySelector('p');
-        let textoHabilidad = '';
+        const htmlTituloHabilidad = div.querySelector('h3');
+        const htmlPuntosHabilidad = div.querySelector('p');
 
-        switch(habilidad.dataset.habilidad) {
+        let tituloHabilidad = '';
+        let puntosHabilidad = '';
+
+        switch(htmlPuntosHabilidad.dataset.habilidad) {
             case 'ataque':
-                textoHabilidad = pokemon.habilidad.ataque;
+                puntosHabilidad = 'Ataque';
+                tituloHabilidad = `${ pokemon.habilidad.ataque }K`;
                 break;
             case 'especial':
-                textoHabilidad = pokemon.habilidad.especial;
+                puntosHabilidad = 'Especial';
+                tituloHabilidad = `${ pokemon.habilidad.especial }K`;
                 break;
             case 'defensa':
-                textoHabilidad = pokemon.habilidad.defensa;
+                puntosHabilidad = 'Defensa';
+                tituloHabilidad = `${ pokemon.habilidad.defensa }K`;
                 break;
         }
 
-        habilidad.textContent = textoHabilidad;
+        htmlTituloHabilidad.textContent = tituloHabilidad;
+        htmlPuntosHabilidad.textContent = puntosHabilidad;
     });
 };
 
@@ -52,12 +57,12 @@ const pintarPokemon = (pokemon) => {
     const clonTemplateCard = templateCard.cloneNode(true);
     const objetoHTML = devolverElementosHTMLTemp(clonTemplateCard);
 
-    recorrerHabilidades(pokemon, objetoHTML.descripcion);
-
     objetoHTML.imagen.setAttribute('src', pokemon.imagen);
     objetoHTML.tituloCard.textContent  = pokemon.nombre;
     objetoHTML.hp.textContent = `${pokemon.hp} hp`;
     objetoHTML.experiencia.textContent = `${ pokemon.experiencia } Exp`;
+
+    recorrerHabilidades(pokemon, objetoHTML.descripcion);
     
     objetoHTML.tituloCard.appendChild(objetoHTML.hp);
     fragment.appendChild(clonTemplateCard);
@@ -78,10 +83,11 @@ const fetchData = (url, numeroPokemon) => {
             imagen: data.sprites.other.dream_world.front_default,
             hp: data.stats[0].base_stat,//Daño que puede recibir el pokemon
             experiencia: data.base_experience,
+            //------------------------- Propiedad objeto para las habilidades del pokemon
             habilidad: {
-                ataque: 1,
-                especial: 2,
-                defensa: 3
+                ataque: data.stats[1].base_stat,
+                especial: data.stats[3].base_stat,
+                defensa: data.stats[2].base_stat
             }
         };
 
