@@ -9,20 +9,57 @@ const devolverNumeroPokemon = (min, max) => {
     return (numeroPokemon === 0) ? 1 : numeroPokemon;
 };
 
+//------------------------- Crea un objeto con los html de querySelector
+const devolverElementosHTMLTemp = (template) => {
+    const objetoHTML = {
+        imagen: template.querySelector('.card .card-body .card-body-img'),
+        tituloCard: template.querySelector('.card .card-body .card-body-title'),
+        hp: template.querySelector('.card .card-body .card-body-title span'),
+        experiencia: template.querySelector('.card .card-body .card-body-text'),
+        descripcion: template.querySelectorAll('.card .card-footer .card-footer-social')
+    };
+
+    return objetoHTML;
+};
+
+//------------------------- Asigna una habilidad a cada elemento del footer
+const recorrerHabilidades = (pokemon, descripcionHabilidades) => {
+    descripcionHabilidades.forEach(div => {
+        div.querySelector('h3').textContent = 'Habilidad';
+        
+        const habilidad = div.querySelector('p');
+        let textoHabilidad = '';
+
+        switch(habilidad.dataset.habilidad) {
+            case 'ataque':
+                textoHabilidad = pokemon.habilidad.ataque;
+                break;
+            case 'especial':
+                textoHabilidad = pokemon.habilidad.especial;
+                break;
+            case 'defensa':
+                textoHabilidad = pokemon.habilidad.defensa;
+                break;
+        }
+
+        habilidad.textContent = textoHabilidad;
+    });
+};
+
+//------------------------- Renderiza el template de la card
 const pintarPokemon = (pokemon) => {
     //------------------------- Al no llamar a fetchBlob no es necesario el: .firstElementChild
     const clonTemplateCard = templateCard.cloneNode(true);
+    const objetoHTML = devolverElementosHTMLTemp(clonTemplateCard);
 
-    //------------------------- Hace el efecto capitalize, pone la primera letra en mayúscula
-    const imagen = clonTemplateCard.querySelector('.card .card-body .card-body-img');
-    const tituloCard = clonTemplateCard.querySelector('.card .card-body .card-body-title');
-    const hp = tituloCard.querySelector('span');
+    recorrerHabilidades(pokemon, objetoHTML.descripcion);
 
-    imagen.setAttribute('src', pokemon.imagen);
-    tituloCard.textContent  = pokemon.nombre;
-    hp.textContent = `${pokemon.hp} hp`;
+    objetoHTML.imagen.setAttribute('src', pokemon.imagen);
+    objetoHTML.tituloCard.textContent  = pokemon.nombre;
+    objetoHTML.hp.textContent = `${pokemon.hp} hp`;
+    objetoHTML.experiencia.textContent = `${ pokemon.experiencia } Exp`;
     
-    tituloCard.appendChild(hp);
+    objetoHTML.tituloCard.appendChild(objetoHTML.hp);
     fragment.appendChild(clonTemplateCard);
     mainContainer.appendChild(fragment);
 };
@@ -39,7 +76,13 @@ const fetchData = (url, numeroPokemon) => {
         const pokemon = {
             nombre: data.name,
             imagen: data.sprites.other.dream_world.front_default,
-            hp: data.stats[0].base_stat//Daño que puede recibir el pokemon
+            hp: data.stats[0].base_stat,//Daño que puede recibir el pokemon
+            experiencia: data.base_experience,
+            habilidad: {
+                ataque: 1,
+                especial: 2,
+                defensa: 3
+            }
         };
 
         pintarPokemon(pokemon);
