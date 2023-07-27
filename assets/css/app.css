@@ -367,6 +367,8 @@ body {
   border-radius: 50%;
   margin-top: -53px;
   background-color: white;
+  width: 96px;
+  height: 96px;
 }
 .card-body-title {
   margin-top: 2rem;
@@ -375,6 +377,7 @@ body {
 .card-body-title span {
   color: hsl(0, 0%, 59%);
   font-weight: 400;
+  margin-left: 0.6rem;
 }
 .card-body-text {
   color: hsl(0, 0%, 59%);
